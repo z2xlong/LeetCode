@@ -1,5 +1,3 @@
-using System;
-
 namespace Code
 {
     public class Wildcard
@@ -29,28 +27,6 @@ namespace Code
             }
 
             return si == s.Length && pi == p.Length;
-        }
-
-        public static void Output(string s, string p)
-        {
-            Console.WriteLine(string.Format(" string: '{0}', patter: '{1}' is {2} matching.", s, p, IsMatching(s, p)));
-        }
-
-        public static bool Test()
-        {
-            Output("abefcdgiescdfimdf", "ab*cd?i*df");
-            Output("", "");
-            Output("", "a");
-            Output("ab", "a*b");
-            Output("aab", "a*a*b");
-            Output("aacab", "a*ab");
-            Output("abac", "*a");
-            Output("a", "a*");
-            Output("a", "ab*");
-            Output("hi", "*?");
-            Output("cab", "ab");
-
-            return true;
         }
     }
 }
