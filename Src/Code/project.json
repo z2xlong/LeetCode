@@ -1,0 +1,28 @@
+{
+  "version": "1.0.0-*",
+  "description": "CSharp Console Application",
+  "authors": [
+    ""
+  ],
+  "tags": [
+    ""
+  ],
+  "projectUrl": "",
+  "licenseUrl": "",
+  "tooling": {
+    "defaultNamespace": "CSharp"
+  },
+  "dependencies": {
+    "Microsoft.CSharp": "4.0.1-beta-*",
+    "System.Collections": "4.0.11-beta-*",
+    "System.Console": "4.0.0-beta-*",
+    "System.Linq": "4.0.1-beta-*",
+    "System.Threading": "4.0.11-beta-*",
+  },
+  "commands": {
+    "CSharp": "CSharp",
+  },
+  "frameworks": {
+    "dnxcore50": {}
+  }
+}
