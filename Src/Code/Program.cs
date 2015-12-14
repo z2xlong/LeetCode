@@ -1,5 +1,3 @@
-using System;
-
 namespace Code
 {
     public class Program
