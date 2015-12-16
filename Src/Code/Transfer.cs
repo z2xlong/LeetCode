@@ -1,15 +1,17 @@
+using System.Collections.Generic;
+
 namespace Code
 {
     public class Transfer
     {
-        string[] _wSingle, _wTeen, _wTy, _wLarge;
+        string[] _wSingle, _wTeen, _wTy, _wScale;
 
         public Transfer()
         {
             _wSingle = new string[10] { "Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine" };
             _wTeen = new string[10] { "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen" };
             _wTy = new string[8] { "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety" };
-            _wLarge = new string[3] { "Thousand", "Million", "Billion" };
+            _wScale = new string[4] { "", "Thousand", "Million", "Billion" };
         }
 
         // 123 -> "One Hundred Twenty Three"
@@ -25,26 +27,38 @@ namespace Code
                 return _wTeen[num];
 
             string words = string.Empty;
-            int single = 0, lgIdx = 0, n = 0;
+            int sIdx = 0, n = 0, segSum = 0, mod = 0;
 
-            for (int len = 1; num > 0; len++, single = n)
+            for (int len = 1; num > 0; len++)
             {
                 n = num % 10;
+                mod = len % 3;
                 num = num / 10;
-                if (n == 0)
-                    continue;
 
-                if (len % 3 == 0)
+                if (mod == 0)
                 {
-                    words = string.Format("{0} Hundred {1}", _wSingle[n], words);
+                    if (n != 0)
+                    {
+                        words = string.Format("{0} Hundred{1}", _wSingle[n], words);
+                    }
                 }
-                else if (len % 3 == 1 && len > 1)
+                else if (mod == 1)
                 {
-                    words = string.Format("{0}{1} {2}", num > 0 ? "" : _wSingle[n]+" ", _wLarge[lgIdx], words);
-                    lgIdx += 1;
+                    if (segSum > 0)
+                        words = _wScale[sIdx] + words;
+                    if (num == 0)
+                        words = _wSingle[n] + " " + words;
+                    sIdx += 1;
+                    segSum = 0;
                 }
-                else if (len % 3 == 2)
-                    words = string.Format("{0} {1}", this.CombineTenAndSingle(n, single), words);
+                else if (mod == 2)
+                {
+                    words = this.CombineTenAndSingle(n, segSum) + words;
+                }
+                segSum += n;
+
+                if (num > 0)
+                    words = " " + words;
             }
 
             return words;

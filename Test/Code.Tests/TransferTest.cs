@@ -10,37 +10,43 @@ namespace Code.Tests
         [FactAttribute]
         public void HundredNumber()
         {
-            Assert.Matches("One Hundred Twenty Three", _trans.NumberToWords(123));
+            Assert.Equal("One Hundred Twenty Three", _trans.NumberToWords(123));
         }
 
         [FactAttribute]
         public void ThousandNumber()
         {
-            Assert.Matches("Twelve Thousand Three Hundred Forty Five", _trans.NumberToWords(123));
+            Assert.Equal("Twelve Thousand Three Hundred Forty Five", _trans.NumberToWords(12345));
         }
 
         [FactAttribute]
         public void MillionNumber()
         {
-            Assert.Matches("One Million Two Hundred Thirty Four Thousand Five Hundred Sixty Seven", _trans.NumberToWords(1234567));
+            Assert.Equal("One Million Two Hundred Thirty Four Thousand Five Hundred Sixty Seven", _trans.NumberToWords(1234567));
         }
 
         [FactAttribute]
         public void NoneNegative()
         {
-            Assert.Matches("", _trans.NumberToWords(1234567));
+            Assert.Equal("", _trans.NumberToWords(1234567));
         }
 
         [FactAttribute]
         public void OneWordNumber()
         {
-            Assert.Matches("One Thousand", _trans.NumberToWords(1000));
+            Assert.Equal("One Thousand", _trans.NumberToWords(1000));
         }
 
         [FactAttribute]
         public void MiddleZeroNumber()
         {
-            Assert.Matches("One Thousand and One", _trans.NumberToWords(1001));
+            Assert.Equal("One Thousand and One", _trans.NumberToWords(1001));
+        }
+
+        [FactAttribute]
+        public void CanModTen()
+        {
+            Assert.Equal("One Hundred Million", _trans.NumberToWords(100000000));
         }
     }
 }
