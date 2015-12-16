@@ -8,7 +8,7 @@ namespace Code
 
         public Transfer()
         {
-            _wSingle = new string[10] { "Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine" };
+            _wSingle = new string[10] { "", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine" };
             _wTeen = new string[10] { "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen" };
             _wTy = new string[8] { "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety" };
             _wScale = new string[4] { "", "Thousand", "Million", "Billion" };
@@ -21,47 +21,52 @@ namespace Code
         {
             if (num < 0)
                 return "";
+            if (num == 0)
+                return "Zero";
             if (num < 10)
                 return _wSingle[num];
             if (num < 20)
                 return _wTeen[num];
 
-            string words = string.Empty;
-            int sIdx = 0, n = 0, segSum = 0, mod = 0;
+            string words = string.Empty, tmp = string.Empty;
+            int sIdx = -1, n = 0, m1 = 0, mod = 0;
 
-            for (int len = 1; num > 0; len++)
+            for (int len = 1; num > 0; len++, num = num / 10)
             {
                 n = num % 10;
                 mod = len % 3;
-                num = num / 10;
 
                 if (mod == 0)
                 {
                     if (n != 0)
-                    {
-                        words = string.Format("{0} Hundred{1}", _wSingle[n], words);
-                    }
+                        tmp = ConcatWords(string.Format("{0} Hundred", _wSingle[n]), tmp);
+                    
+                    words = ConcatWords(tmp, words);
+                    tmp = string.Empty;
                 }
                 else if (mod == 1)
                 {
-                    if (segSum > 0)
-                        words = _wScale[sIdx] + words;
-                    if (num == 0)
-                        words = _wSingle[n] + " " + words;
                     sIdx += 1;
-                    segSum = 0;
+                    m1 = n;
+                    tmp = _wSingle[m1];
                 }
                 else if (mod == 2)
                 {
-                    words = this.CombineTenAndSingle(n, segSum) + words;
+                    tmp = this.CombineTenAndSingle(n, m1);
+                    if (!string.IsNullOrEmpty(tmp))
+                        tmp = ConcatWords(tmp, _wScale[sIdx]);
                 }
-                segSum += n;
-
-                if (num > 0)
-                    words = " " + words;
             }
 
+            if (!string.IsNullOrEmpty(tmp))
+                words = ConcatWords(tmp, words);
             return words;
+        }
+
+        private string ConcatWords(string w1, string w2)
+        {
+            string sep = string.IsNullOrEmpty(w1) && string.IsNullOrEmpty(w2) ? "" : " ";
+            return string.Format("{0}{1}{2}", w1, sep, w2);
         }
 
         private string CombineTenAndSingle(int ten, int single)

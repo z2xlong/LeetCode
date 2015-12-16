@@ -28,7 +28,7 @@ namespace Code.Tests
         [FactAttribute]
         public void NoneNegative()
         {
-            Assert.Equal("", _trans.NumberToWords(1234567));
+            Assert.Equal("", _trans.NumberToWords(-1));
         }
 
         [FactAttribute]
