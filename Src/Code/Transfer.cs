@@ -26,7 +26,7 @@ namespace Code
             if (num < 10)
                 return _wSingle[num];
             if (num < 20)
-                return _wTeen[num];
+                return _wTeen[num - 10];
 
             string words = string.Empty, tmp = string.Empty;
             int sIdx = -1, n = 0, m1 = 0, mod = 0;
@@ -40,7 +40,8 @@ namespace Code
                 {
                     if (n != 0)
                         tmp = ConcatWords(string.Format("{0} Hundred", _wSingle[n]), tmp);
-                    
+                    if (!string.IsNullOrEmpty(tmp))
+                        tmp = ConcatWords(tmp, _wScale[sIdx]);
                     words = ConcatWords(tmp, words);
                     tmp = string.Empty;
                 }
@@ -53,19 +54,17 @@ namespace Code
                 else if (mod == 2)
                 {
                     tmp = this.CombineTenAndSingle(n, m1);
-                    if (!string.IsNullOrEmpty(tmp))
-                        tmp = ConcatWords(tmp, _wScale[sIdx]);
                 }
             }
 
             if (!string.IsNullOrEmpty(tmp))
-                words = ConcatWords(tmp, words);
+                words = ConcatWords(ConcatWords(tmp, _wScale[sIdx]), words);
             return words;
         }
 
         private string ConcatWords(string w1, string w2)
         {
-            string sep = string.IsNullOrEmpty(w1) && string.IsNullOrEmpty(w2) ? "" : " ";
+            string sep = !string.IsNullOrEmpty(w1) && !string.IsNullOrEmpty(w2) ? " " : "";
             return string.Format("{0}{1}{2}", w1, sep, w2);
         }
 
@@ -75,7 +74,7 @@ namespace Code
             {
                 if (single == 0)
                     return "";
-                return "and " + _wSingle[single];
+                return _wSingle[single];
             }
             else if (ten == 1)
             {
@@ -83,7 +82,7 @@ namespace Code
             }
             else
             {
-                return string.Format("{0} {1}", _wTy[ten - 2], _wSingle[single]);
+                return ConcatWords(_wTy[ten - 2], _wSingle[single]);
             }
         }
     }

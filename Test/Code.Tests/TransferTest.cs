@@ -8,6 +8,12 @@ namespace Code.Tests
         Transfer _trans = new Transfer();
 
         [FactAttribute]
+        public void TestBoundary()
+        {
+            Assert.Equal("Ten", _trans.NumberToWords(10));
+        }
+
+        [FactAttribute]
         public void HundredNumber()
         {
             Assert.Equal("One Hundred Twenty Three", _trans.NumberToWords(123));
@@ -34,19 +40,25 @@ namespace Code.Tests
         [FactAttribute]
         public void OneWordNumber()
         {
-            Assert.Equal("One Thousand", _trans.NumberToWords(1000));
+            Assert.Equal("'One Thousand'", "'" + _trans.NumberToWords(1000) + "'");
         }
 
         [FactAttribute]
         public void MiddleZeroNumber()
         {
-            Assert.Equal("One Thousand and One", _trans.NumberToWords(1001));
+            Assert.Equal("One Thousand One", _trans.NumberToWords(1001));
         }
 
         [FactAttribute]
         public void CanModTen()
         {
             Assert.Equal("One Hundred Million", _trans.NumberToWords(100000000));
+        }
+
+        [FactAttribute]
+        public void ManyZeroInNumber()
+        {
+            Assert.Equal("One Hundred One Million One Hundred", _trans.NumberToWords(101000100));
         }
     }
 }
