@@ -12,24 +12,15 @@ namespace Code
 
             int result = 0, i = 0, n = 0;
             bool negative = false;
-            char[] chs = str.ToCharArray();
 
-            for (; i < chs.Length; i++)
-            {
-                if (chs[i] != ' ' && chs[i] != '\t')
-                    break;
-            }
+            for (; i < str.Length && (str[i] == ' ' || str[i] == '\t'); i++) { }
 
-            if (chs[i] == '-' || chs[i] == '+')
-            {
-                if (chs[i] == '-')
-                    negative = true;
-                i += 1;
-            }
+            if (str[i] == '-' || str[i] == '+')
+                negative = str[i++] == '-' ? true : false;
 
-            for (; i < chs.Length; i++)
+            for (; i < str.Length; i++)
             {
-                n = (int)chs[i] - 48;
+                n = (int)str[i] - 48;
                 if (n >= 0 && n <= 9)
                 {
                     if (result > _maxTen || (result == _maxTen && n > _maxMod))
